@@ -1,0 +1,3 @@
+--recursive
+--require test/babel.js
+--timeout 5000
