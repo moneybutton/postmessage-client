@@ -61,7 +61,7 @@ export class PostMessageClient {
     const payload = {
       error: 'unexpected error',
       popup: {
-        title: 'Unknown Error',
+        title: 'Unexpected Error',
         message: err.message
         // buttonText: '',
         // buttonUrl: ''
