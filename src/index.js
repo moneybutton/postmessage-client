@@ -51,7 +51,7 @@ export class PostMessageClient {
         title: 'Low Balance',
         message: 'Your balance is too low to make this payment.',
         buttonText: 'Add Money',
-        buttonUrl: `${BASE_URL}/wallet`
+        buttonUrl: `${BASE_URL}/money`
       }
     }
     this.send('error.insufficient-balance', payload, payload)
