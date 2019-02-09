@@ -23,7 +23,6 @@
   "repository": "https://github.com/moneybutton/yours",
   "author": "Yours Inc.",
   "license": "UNLICENSED",
-  "private": true,
   "dependencies": {
     "@babel/runtime": "7.0.0",
     "@moneybutton/config": "^0.20.0",
