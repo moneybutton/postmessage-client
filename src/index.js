@@ -41,7 +41,7 @@ export class PostMessageClient {
         payload
       }
     }
-    this.targetWindow.postMessage({...message, ...extraPayload}, '*')
+    this.targetWindow.postMessage({ ...message, ...extraPayload }, '*')
   }
 
   sendInsufficientBalanceError = () => {
