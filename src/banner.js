@@ -1,3 +1,3 @@
 /**
- * Copyright 2018 Yours Inc.
+ * Copyright 2019 Yours Inc.
  */
