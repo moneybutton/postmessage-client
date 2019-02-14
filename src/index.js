@@ -6,10 +6,22 @@ export class PostMessageClient {
   constructor (window) {
     this.handlers = {}
     this.targetWindow = window
+    this._pendingMessages = []
+    this._deliverMessages = false
   }
 
   start = () => {
     window.addEventListener('message', this._onMessageReceived, false)
+  }
+
+  enableDeliver = () => {
+    this._deliverMessages = true
+    this._pendingMessages.forEach(message => this.send(
+      message.topic,
+      message.payload,
+      message.extraPayload
+    ))
+    this._pendingMessages = []
   }
 
   finalize = () => {
@@ -35,13 +47,21 @@ export class PostMessageClient {
   }
 
   send = (topic, payload, extraPayload = {}) => {
-    const message = {
-      v1: {
+    if (!this._deliverMessages) {
+      this._pendingMessages = [...this._pendingMessages, {
         topic,
-        payload
+        payload,
+        extraPayload
+      }]
+    } else {
+      const message = {
+        v1: {
+          topic,
+          payload
+        }
       }
+      this.targetWindow.postMessage({ ...message, ...extraPayload }, '*')
     }
-    this.targetWindow.postMessage({ ...message, ...extraPayload }, '*')
   }
 
   sendInsufficientBalanceError = () => {
