@@ -127,7 +127,7 @@ export class PostMessageClient {
       error: 'safari privacy',
       popup: {
         title: 'Money Button',
-        message: 'We believe in sound digital money for everyone in the world. Enable Money Button on Safari to make this payment.',
+        message: 'We believe in sound digital money for everyone in the world. Enable Money Button on Safari and log in to make this payment.',
         buttonUrl: 'https://blog.moneybutton.com/2018/09/24/how-to-enable-money-button-on-safari-and-ios/',
         buttonText: 'Enable'
       }
