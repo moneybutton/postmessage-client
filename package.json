@@ -18,6 +18,7 @@
     "build:dev": "NODE_ENV=dev dotenv -e ../../.env.dev -- yarn build",
     "build:prod": "NODE_ENV=production dotenv -e ../../.env.prod -- yarn build",
     "build:watch": "yarn build -w",
+    "prepublish": "yarn build:prod",
     "dev": "NODE_ENV=dev dotenv -e ../../.env.dev -- yarn build:watch"
   },
   "repository": "https://github.com/moneybutton/yours",
