@@ -1,6 +1,6 @@
 {
   "name": "@moneybutton/postmessage-client",
-  "version": "0.21.8",
+  "version": "0.21.9",
   "description": "Money Button PostMessage client.",
   "main": "dist/moneybutton.postmessage-client.cjs.js",
   "module": "dist/moneybutton.postmessage-client.esm.js",
@@ -26,8 +26,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@babel/runtime": "7.0.0",
-    "@moneybutton/config": "^0.21.8",
-    "@moneybutton/logger": "^0.21.8"
+    "@moneybutton/config": "^0.21.9",
+    "@moneybutton/logger": "^0.21.9"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0",
