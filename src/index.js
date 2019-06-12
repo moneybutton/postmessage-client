@@ -2,6 +2,10 @@ import config from './util/config'
 
 const BASE_URL = config.get('MONEY_BUTTON_WEBAPP_PROXY_URI')
 
+function generateRandomId () {
+  return (Math.floor(Math.random() * 100000000000000000)).toString()
+}
+
 export class PostMessageClient {
   constructor (window) {
     this.handlers = {}
@@ -42,7 +46,7 @@ export class PostMessageClient {
     const message = event.data.v1
     const handler = this.handlers[message.topic]
     if (handler) {
-      handler(message.payload, message.topic)
+      handler(message.payload, message.topic, message.messageId)
     }
   }
 
@@ -54,10 +58,12 @@ export class PostMessageClient {
         extraPayload
       }]
     } else {
+      const messageId = generateRandomId()
       const message = {
         v1: {
           topic,
-          payload
+          payload,
+          messageId
         }
       }
       this.targetWindow.postMessage({ ...message, ...extraPayload }, '*')
