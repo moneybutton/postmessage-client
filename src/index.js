@@ -96,9 +96,27 @@ export class PostMessageClient {
     this.send('error.unexpected-error', payload, payload)
   }
 
+  sendCryptoOperationsError = (err) => {
+    const payload = {
+      error: 'crypto operations error',
+      popup: {
+        title: 'Crypto Operations Error',
+        message: err.message
+        // buttonText: '',
+        // buttonUrl: ''
+      }
+    }
+    this.send('error.crypto-operations-error', payload, payload)
+  }
+
   sendPaymentSuccess = (payment) => {
     const payload = { payment }
     this.send('payment-success', payload, payload)
+  }
+
+  sendCryptoOperationsSuccess = (cryptoOperations) => {
+    const payload = { cryptoOperations }
+    this.send('crypto-operations-success', payload, payload)
   }
 
   sendNotLoggedInError = (payment) => {
