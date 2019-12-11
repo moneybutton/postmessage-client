@@ -74,7 +74,7 @@ export class PostMessageClient {
     const payload = {
       error: 'insufficient balance',
       popup: {
-        title: 'Low Balance',
+        title: 'Low balance',
         message: 'Your balance is too low to make this payment.',
         buttonText: 'Add Money',
         buttonUrl: `${BASE_URL}/money`
@@ -100,7 +100,7 @@ export class PostMessageClient {
     const payload = {
       error: 'crypto operations error',
       popup: {
-        title: 'Crypto Operations Error',
+        title: 'Crypto Operations error',
         message: err.message
         // buttonText: '',
         // buttonUrl: ''
@@ -124,10 +124,10 @@ export class PostMessageClient {
       error: 'not logged in',
       popup: {
         title: 'Money Button',
-        message: 'We believe in sound digital money for everyone in the world. Join Money Button to make this payment.',
-        buttonText: 'Sign Up',
+        message: 'Money Button is a simple payment system. Join Money Button to make this payment.',
+        buttonText: 'Sign up',
         buttonUrl: `${BASE_URL}/register`,
-        buttonText2: 'Log In',
+        buttonText2: 'Log in',
         buttonUrl2: `${BASE_URL}/login`
       }
     }
@@ -151,7 +151,7 @@ export class PostMessageClient {
       error: 'safari privacy',
       popup: {
         title: 'Money Button',
-        message: 'We believe in sound digital money for everyone in the world. Enable Money Button on Safari and log in to make this payment.',
+        message: 'Money Button is a simple payment system. Enable Money Button on Safari and log in to make this payment.',
         buttonUrl: 'https://blog.moneybutton.com/2018/09/24/how-to-enable-money-button-on-safari-and-ios/',
         buttonText: 'Enable'
       }
