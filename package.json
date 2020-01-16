@@ -15,11 +15,11 @@
     "test": "NODE_ENV=test dotenv -e ../../.env.test -- yarn test:mocha",
     "test:mocha": "NODE_ENV=test mocha -R progress",
     "build": "rollup -c",
-    "build:dev": "NODE_ENV=dev dotenv -e ../../.env.dev -- yarn build",
+    "build:dev": "dotenv -e ../../.env.dev -- yarn build",
     "build:prod": "NODE_ENV=production dotenv -e ../../.env.prod -- yarn build",
     "build:watch": "yarn build -w",
     "prepublish": "yarn build:prod",
-    "dev": "NODE_ENV=dev dotenv -e ../../.env.dev -- yarn build:watch"
+    "dev": "dotenv -e ../../.env.dev -- yarn build:watch"
   },
   "repository": "https://github.com/moneybutton/yours",
   "author": "Yours Inc.",
@@ -40,7 +40,6 @@
     "babel-eslint": "9.0.0",
     "babel-loader": "8.0.4",
     "component-emitter": "1.2.1",
-    "concurrently": "3.6.1",
     "dotenv-cli": "2.0.1",
     "knex-cleaner": "1.1.4",
     "mocha": "6.2.0",
