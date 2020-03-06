@@ -12,6 +12,7 @@ export class PostMessageClient {
     this.targetWindow = window
     this._pendingMessages = []
     this._deliverMessages = false
+    this._replayQueue = {}
   }
 
   start = () => {
@@ -36,7 +37,7 @@ export class PostMessageClient {
     this.handlers[topic] = handler
   }
 
-  _onMessageReceived = (event) => {
+  _onMessageReceived = async (event) => {
     if (event.source !== this.targetWindow) {
       return
     }
@@ -44,18 +45,32 @@ export class PostMessageClient {
       return
     }
     const message = event.data.v1
+    if (message.repliesTo) {
+      const { [message.repliesTo]: handler, ...rest } = this._replayQueue
+      this._replayQueue = rest
+      await handler(message.payload, message.topic, message.messageId)
+      return
+    }
+
     const handler = this.handlers[message.topic]
     if (handler) {
-      handler(message.payload, message.topic, message.messageId)
+      try {
+        const response = await handler(message.payload, message.topic, message.messageId)
+        if (message.reply) {
+          this.send(`${message.topic}:reply`, response, { repliesTo: message.messageId })
+        }
+      } catch (e) {
+        console.error(e)
+        throw e
+      }
     }
   }
 
-  send = (topic, payload, extraPayload = {}) => {
+  send = (topic, payload, metadata = {}) => {
     if (!this._deliverMessages) {
       this._pendingMessages = [...this._pendingMessages, {
         topic,
-        payload,
-        extraPayload
+        payload
       }]
     } else {
       const messageId = generateRandomId()
@@ -63,11 +78,20 @@ export class PostMessageClient {
         v1: {
           topic,
           payload,
-          messageId
+          messageId,
+          ...metadata
         }
       }
-      this.targetWindow.postMessage({ ...message, ...extraPayload }, '*')
+      this.targetWindow.postMessage(message, '*')
+      return message
     }
+  }
+
+  sendWithReply = async (topic, payload) => {
+    return new Promise((resolve) => {
+      const { v1: { messageId } } = this.send(topic, payload, { reply: true })
+      this._replayQueue = { ...this._replayQueue, [messageId]: resolve }
+    })
   }
 
   sendInsufficientBalanceError = () => {
@@ -80,7 +104,7 @@ export class PostMessageClient {
         buttonUrl: `${BASE_URL}/money`
       }
     }
-    this.send('error.insufficient-balance', payload, payload)
+    this.send('error.insufficient-balance', payload)
   }
 
   sendUnexpectedError = (err) => {
@@ -93,7 +117,7 @@ export class PostMessageClient {
         // buttonUrl: ''
       }
     }
-    this.send('error.unexpected-error', payload, payload)
+    this.send('error.unexpected-error', payload)
   }
 
   sendCryptoOperationsError = (err) => {
@@ -106,20 +130,20 @@ export class PostMessageClient {
         // buttonUrl: ''
       }
     }
-    this.send('error.crypto-operations-error', payload, payload)
+    this.send('error.crypto-operations-error', payload)
   }
 
   sendPaymentSuccess = (payment) => {
     const payload = { payment }
-    this.send('payment-success', payload, payload)
+    this.send('payment-success', payload)
   }
 
   sendCryptoOperationsSuccess = (cryptoOperations) => {
     const payload = { cryptoOperations }
-    this.send('crypto-operations-success', payload, payload)
+    this.send('crypto-operations-success', payload)
   }
 
-  sendNotLoggedInError = (payment) => {
+  sendNotLoggedInError = (_payment) => {
     const payload = {
       error: 'not logged in',
       popup: {
@@ -131,7 +155,7 @@ export class PostMessageClient {
         buttonUrl2: `${BASE_URL}/login`
       }
     }
-    this.send('error.not-logged-in', payload, payload)
+    this.send('error.not-logged-in', payload)
   }
 
   sendCompatibilityIssue = (issue) => {
@@ -143,7 +167,7 @@ export class PostMessageClient {
         message: issue.message
       }
     }
-    this.send('error.compatibility', payload, payload)
+    this.send('error.compatibility', payload)
   }
 
   sendSafaryIssueHint = () => {
@@ -156,6 +180,6 @@ export class PostMessageClient {
         buttonText: 'Enable'
       }
     }
-    this.send('error.safari-compatibility', payload, payload)
+    this.send('error.safari-compatibility', payload)
   }
 }
