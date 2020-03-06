@@ -23,7 +23,7 @@
   },
   "repository": "https://github.com/moneybutton/yours",
   "author": "Yours Inc.",
-  "license": "UNLICENSED",
+  "license": "Open-BSV",
   "dependencies": {
     "@babel/runtime": "7.5.5",
     "@moneybutton/config": "^0.35.0",
