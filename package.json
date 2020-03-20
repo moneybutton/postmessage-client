@@ -21,7 +21,7 @@
     "prepublish": "yarn build:prod",
     "dev": "dotenv -e ../../.env.dev -- yarn build:watch"
   },
-  "repository": "https://github.com/moneybutton/yours",
+  "repository": "https://github.com/moneybutton/postmessage-client",
   "author": "Yours Inc.",
   "license": "Open-BSV",
   "dependencies": {
