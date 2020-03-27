@@ -21,11 +21,7 @@ export class PostMessageClient {
 
   enableDeliver = () => {
     this._deliverMessages = true
-    this._pendingMessages.forEach(message => this.send(
-      message.topic,
-      message.payload,
-      message.extraPayload
-    ))
+    this._pendingMessages.forEach(message => this.targetWindow.postMessage(message, '*'))
     this._pendingMessages = []
   }
 
@@ -67,24 +63,21 @@ export class PostMessageClient {
   }
 
   send = (topic, payload, metadata = {}) => {
-    if (!this._deliverMessages) {
-      this._pendingMessages = [...this._pendingMessages, {
+    const messageId = generateRandomId()
+    const message = {
+      v1: {
         topic,
-        payload
-      }]
-    } else {
-      const messageId = generateRandomId()
-      const message = {
-        v1: {
-          topic,
-          payload,
-          messageId,
-          ...metadata
-        }
+        payload,
+        messageId,
+        ...metadata
       }
-      this.targetWindow.postMessage(message, '*')
-      return message
     }
+    if (!this._deliverMessages) {
+      this._pendingMessages = [...this._pendingMessages, message]
+    } else {
+      this.targetWindow.postMessage(message, '*')
+    }
+    return message
   }
 
   sendWithReply = async (topic, payload) => {
