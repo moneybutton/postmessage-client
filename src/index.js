@@ -42,9 +42,13 @@ export class PostMessageClient {
     }
     const message = event.data.v1
     if (message.repliesTo) {
-      const { [message.repliesTo]: handler, ...rest } = this._replayQueue
+      const { [message.repliesTo]: { resolve, reject }, ...rest } = this._replayQueue
       this._replayQueue = rest
-      await handler(message.payload, message.topic, message.messageId)
+      if (message.errorResponse) {
+        await reject(message.payload, message.topic, message.messageId)
+      } else {
+        await resolve(message.payload, message.topic, message.messageId)
+      }
       return
     }
 
@@ -53,11 +57,13 @@ export class PostMessageClient {
       try {
         const response = await handler(message.payload, message.topic, message.messageId)
         if (message.reply) {
-          this.send(`${message.topic}:reply`, response, { repliesTo: message.messageId })
+          this.send(`${message.topic}:reply`, response, { repliesTo: message.messageId, errorResponse: false })
         }
       } catch (e) {
         console.error(e)
-        throw e
+        if (message.reply) {
+          this.send(`${message.topic}:reply`, { message: e.message }, { repliesTo: message.messageId, errorResponse: true })
+        }
       }
     }
   }
@@ -81,9 +87,9 @@ export class PostMessageClient {
   }
 
   sendWithReply = async (topic, payload) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const { v1: { messageId } } = this.send(topic, payload, { reply: true })
-      this._replayQueue = { ...this._replayQueue, [messageId]: resolve }
+      this._replayQueue = { ...this._replayQueue, [messageId]: { resolve, reject } }
     })
   }
 
