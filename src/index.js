@@ -41,7 +41,7 @@ export class PostMessageClient {
       return
     }
     const message = event.data.v1
-    if (message.repliesTo) {
+    if (message.repliesTo && this._replayQueue[message.repliesTo]) {
       const { [message.repliesTo]: { resolve, reject }, ...rest } = this._replayQueue
       this._replayQueue = rest
       if (message.errorResponse) {
