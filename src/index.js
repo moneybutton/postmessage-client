@@ -33,6 +33,10 @@ export class PostMessageClient {
     this.handlers[topic] = handler
   }
 
+  unsuscribe = (topic) => {
+    delete this.handlers[topic]
+  }
+
   _onMessageReceived = async (event) => {
     if (event.source !== this.targetWindow) {
       return
