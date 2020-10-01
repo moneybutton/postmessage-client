@@ -1,7 +1,3 @@
-import config from './util/config'
-
-const BASE_URL = config.get('MONEY_BUTTON_WEBAPP_PROXY_URI')
-
 function generateRandomId () {
   return (Math.floor(Math.random() * 100000000000000000)).toString()
 }
@@ -97,14 +93,14 @@ export class PostMessageClient {
     })
   }
 
-  sendInsufficientBalanceError = () => {
+  sendInsufficientBalanceError = (baseUrl) => {
     const payload = {
       error: 'insufficient balance',
       popup: {
         title: 'Low balance',
         message: 'Your balance is too low to make this payment.',
         buttonText: 'Add Money',
-        buttonUrl: `${BASE_URL}/money`
+        buttonUrl: `${baseUrl}/money`
       }
     }
     this.send('error.insufficient-balance', payload)
@@ -146,16 +142,16 @@ export class PostMessageClient {
     this.send('crypto-operations-success', payload)
   }
 
-  sendNotLoggedInError = (_payment) => {
+  sendNotLoggedInError = (baseUrl) => {
     const payload = {
       error: 'not logged in',
       popup: {
         title: 'Money Button',
         message: 'Money Button is a simple payment system. Join Money Button to make this payment.',
         buttonText: 'Sign up',
-        buttonUrl: `${BASE_URL}/register`,
+        buttonUrl: `${baseUrl}/register`,
         buttonText2: 'Log in',
-        buttonUrl2: `${BASE_URL}/login`
+        buttonUrl2: `${baseUrl}/login`
       }
     }
     this.send('error.not-logged-in', payload)
