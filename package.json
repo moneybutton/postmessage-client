@@ -12,6 +12,7 @@
   "scripts": {
     "lint": "standard --parser=babel-eslint",
     "test": "NODE_ENV=test dotenv -e ../../.env.test -- yarn test:mocha",
+    "test:ci": "yarn test:mocha",
     "test:mocha": "NODE_ENV=test mocha -R progress",
     "build": "rollup -c",
     "build:dev": "dotenv -e ../../.env.dev -- yarn build",
