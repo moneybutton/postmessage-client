@@ -22,7 +22,7 @@
     "dev": "dotenv -e ../../.env.dev -- yarn build:watch"
   },
   "repository": "https://github.com/moneybutton/postmessage-client",
-  "author": "Yours Inc.",
+  "author": "Fermatted Drives Limited",
   "license": "Open-BSV",
   "dependencies": {
     "@babel/runtime": "7.5.5",
