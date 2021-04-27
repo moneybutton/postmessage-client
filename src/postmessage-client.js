@@ -119,6 +119,10 @@ export class PostMessageClient {
     this.send('error.unexpected-error', payload)
   }
 
+  sendStyledError = (err) => {
+    this.send('error.styled-mb-error', err)
+  }
+
   sendCryptoOperationsError = (err) => {
     const payload = {
       error: 'crypto operations error',
