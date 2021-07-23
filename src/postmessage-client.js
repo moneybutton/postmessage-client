@@ -34,9 +34,6 @@ export class PostMessageClient {
   }
 
   _onMessageReceived = async (event) => {
-    if (event.source !== this.targetWindow) {
-      return
-    }
     if (!event.data || !event.data.v1) {
       return
     }
