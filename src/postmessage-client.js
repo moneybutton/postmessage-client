@@ -3,9 +3,10 @@ function generateRandomId () {
 }
 
 export class PostMessageClient {
-  constructor (window) {
+  constructor (window, targetOrigin = '*') {
     this.handlers = {}
     this.targetWindow = window
+    this.targetOrigin = targetOrigin
     this._pendingMessages = []
     this._deliverMessages = false
     this._replayQueue = {}
@@ -78,7 +79,7 @@ export class PostMessageClient {
     if (!this._deliverMessages) {
       this._pendingMessages = [...this._pendingMessages, message]
     } else {
-      this.targetWindow.postMessage(message, '*')
+      this.targetWindow.postMessage(message, this.targetOrigin)
     }
     return message
   }
