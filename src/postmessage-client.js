@@ -3,11 +3,11 @@ function generateRandomId () {
 }
 
 export class PostMessageClient {
-  constructor (window, targetOrigin = '*', groupId = '') {
+  constructor (window, targetOrigin = '*', group = '') {
     this.handlers = {}
     this.targetWindow = window
     this.targetOrigin = targetOrigin
-    this.groupId = groupId
+    this.group = String(group)
     this._pendingMessages = []
     this._deliverMessages = false
     this._replayQueue = {}
@@ -28,11 +28,11 @@ export class PostMessageClient {
   }
 
   subscribe = (topic, handler) => {
-    this.handlers[topic + this.groupId] = handler
+    this.handlers[topic] = handler
   }
 
   unsuscribe = (topic) => {
-    delete this.handlers[topic + this.groupId]
+    delete this.handlers[topic]
   }
 
   _onMessageReceived = async (event) => {
@@ -52,7 +52,7 @@ export class PostMessageClient {
     }
 
     const handler = this.handlers[message.topic]
-    if (handler) {
+    if (handler && (message.group === this.group || !message.group)) {
       try {
         const response = await handler(message.payload, message.topic, message.messageId)
         if (message.reply) {
@@ -71,7 +71,8 @@ export class PostMessageClient {
     const messageId = generateRandomId()
     const message = {
       v1: {
-        topic: topic + this.groupId,
+        topic,
+        group: this.group,
         payload,
         messageId,
         ...metadata
