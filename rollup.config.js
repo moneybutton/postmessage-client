@@ -1,10 +1,8 @@
 import babel from 'rollup-plugin-babel'
 import commonJS from '@rollup/plugin-commonjs'
 import external from 'rollup-plugin-peer-deps-external'
-import postcss from 'rollup-plugin-postcss'
 import replace from '@rollup/plugin-replace'
 import resolve from '@rollup/plugin-node-resolve'
-import url from 'rollup-plugin-url'
 
 import pkg from './package.json'
 
@@ -25,10 +23,6 @@ export default {
   plugins: [
     replace(getReplacements()),
     external(),
-    postcss({
-      modules: true
-    }),
-    url(),
     babel({
       presets: [
         [
