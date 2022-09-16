@@ -83,7 +83,7 @@ jobs:
           node-version: 16.x
 
       - name: Publish NPM package
-        run: npm publish
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
     
