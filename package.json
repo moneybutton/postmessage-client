@@ -15,19 +15,15 @@
     "test:ci": "yarn test:mocha",
     "test:mocha": "NODE_ENV=test mocha -R progress",
     "build": "rollup -c",
-    "build:dev": "dotenv -e ../../.env.dev -- yarn build",
-    "build:prod": "NODE_ENV=production dotenv -e ../../.env.prod -- yarn build",
     "build:watch": "yarn build -w",
     "prepublish": "yarn build:prod",
-    "dev": "dotenv -e ../../.env.dev -- yarn build:watch"
+    "dev": "yarn build:watch"
   },
   "repository": "https://github.com/moneybutton/postmessage-client",
   "author": "Fermatted Drives Limited",
   "license": "Open-BSV",
   "dependencies": {
-    "@babel/runtime": "7.5.5",
-    "@moneybutton/config": "^0.38.7",
-    "@moneybutton/logger": "^0.38.7"
+    "@babel/runtime": "7.5.5"
   },
   "devDependencies": {
     "@babel/cli": "7.5.5",
@@ -64,6 +60,5 @@
       "it",
       "should"
     ]
-  },
-  "gitHead": "3ac0d2f8bdcd9bbb7b9934b30e92380c6600c95a"
+  }
 }
