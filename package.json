@@ -16,7 +16,6 @@
     "test:mocha": "NODE_ENV=test mocha -R progress",
     "build": "rollup -c",
     "build:watch": "yarn build -w",
-    "prepublish": "yarn build:prod",
     "dev": "yarn build:watch"
   },
   "repository": "https://github.com/moneybutton/postmessage-client",
