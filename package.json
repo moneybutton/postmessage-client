@@ -1,6 +1,6 @@
 {
   "name": "@moneybutton/postmessage-client",
-  "version": "0.38.9",
+  "version": "0.38.10",
   "description": "Money Button PostMessage client.",
   "main": "dist/moneybutton.postmessage-client.cjs.js",
   "module": "dist/moneybutton.postmessage-client.esm.js",

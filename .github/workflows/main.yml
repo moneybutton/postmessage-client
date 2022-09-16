@@ -39,8 +39,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release
-          path: |
-            ./dist
+          path: dist
 
   release:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -76,6 +75,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: release
+          path: dist
 
       - name: Setup Node
         uses: actions/setup-node@v3
